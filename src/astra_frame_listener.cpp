@@ -43,6 +43,8 @@
 namespace astra_wrapper
 {
 
+double AstraFrameListener::latest_corrected_ir_timestamp = 0.0;
+
 AstraFrameListener::AstraFrameListener() :
     callback_(0),
     user_device_timer_(false),
@@ -91,6 +93,11 @@ void AstraFrameListener::onNewFrame(openni::VideoStream& stream)
       double filtered_time_diff = timer_filter_->getMedian();
 
       double corrected_timestamp = device_time_in_sec+filtered_time_diff;
+
+      if (m_frame.getSensorType() == openni::SENSOR_IR) {
+        latest_corrected_ir_timestamp = corrected_timestamp;
+      }
+      corrected_timestamp = latest_corrected_ir_timestamp;
 
       image->header.stamp.fromSec(corrected_timestamp);
 
