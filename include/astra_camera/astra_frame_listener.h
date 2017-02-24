@@ -66,7 +66,8 @@ public:
 private:
   openni::VideoFrameRef m_frame;
 
-  static double latest_corrected_ir_timestamp;
+  static bool has_corrected_ir_timestamp_;
+  static double latest_corrected_ir_timestamp_;
 
   FrameCallbackFunction callback_;
 
